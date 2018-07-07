@@ -12,7 +12,10 @@ import javax.validation.ConstraintViolationException;
 import model.Zvanje;
 import org.hibernate.Session;
 import org.hibernate.type.StringType;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.WebApplicationContext;
 import service.IZvanjeService;
 import validator.Validator;
 
@@ -21,6 +24,7 @@ import validator.Validator;
  * @author edis
  */
 @Component(value = "ZvanjeServiceImpl")
+@Scope(value = WebApplicationContext.SCOPE_SESSION, proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class ZvanjeServiceImpl implements IZvanjeService {
 
     private Session session;
@@ -111,6 +115,25 @@ public class ZvanjeServiceImpl implements IZvanjeService {
         } catch (Exception e) {
             session.getTransaction().rollback();
             throw e;
+        }
+    }
+
+    @Override
+    public List<Zvanje> find(String naziv, int limit) throws Exception {
+        if (limit <= 0) {
+            limit = 1;
+        }
+
+        naziv = (naziv == null) ? "" : naziv.trim();
+
+        try {
+            List<Zvanje> zvanja = session.createNamedQuery("Zvanje.LoadNazivLike", Zvanje.class)
+                    .setParameter("naziv", "%" + naziv + "%", StringType.INSTANCE)
+                    .setMaxResults(limit)
+                    .getResultList();
+            return zvanja;
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
         }
     }
 

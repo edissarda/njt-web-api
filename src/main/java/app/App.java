@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package config;
+package app;
 
 import hibernate.HibernateUtil;
 import org.springframework.boot.SpringApplication;
@@ -15,7 +15,7 @@ import org.springframework.context.annotation.ComponentScan;
  * @author edis
  */
 @SpringBootApplication
-@ComponentScan(basePackages = {"config", "controller", "service"})
+@ComponentScan(basePackages = {"app", "controller", "service", "hibernate"})
 public class App {
 
     public static void main(String[] args) {

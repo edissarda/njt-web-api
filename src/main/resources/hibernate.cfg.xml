@@ -11,5 +11,6 @@
     <property name="hibernate.connection.pool_size">1</property>
     <property name="hibernate.current_session_context_class">thread</property>
     <mapping class="model.Zvanje"/>
+    <mapping class="model.TipRukovodioca" />
   </session-factory>
 </hibernate-configuration>

@@ -24,4 +24,6 @@ public interface IZvanjeService {
     public Zvanje delete(Zvanje zvanje) throws Exception;
 
     public Zvanje update(Zvanje toUpdate) throws Exception;
+
+    public List<Zvanje> find(String naziv, int limit) throws Exception;
 }

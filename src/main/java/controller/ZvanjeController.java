@@ -7,14 +7,15 @@ package controller;
 
 import dto.ZvanjeDTO;
 import java.util.List;
-import javax.validation.Valid;
 import model.Zvanje;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import response.IResponse;
 import response.ResponseBuilder;
@@ -30,8 +31,8 @@ public class ZvanjeController {
 
     @Autowired(required = true)
     private IZvanjeService service;
-    
-    @RequestMapping(method = RequestMethod.GET)
+
+    @GetMapping
     public Object getAll() {
         try {
             List<Zvanje> zvanja = service.loadAll();
@@ -41,8 +42,24 @@ public class ZvanjeController {
         }
     }
 
+    @GetMapping(path = "/find")
+    public IResponse find(
+            @RequestParam(required = true)
+                    String naziv, 
+            @RequestParam(required = false, defaultValue = "5")
+                    int limit
+    ) {
+        try {
+            List<Zvanje> zvanja = service.find(naziv, limit);
+            return ResponseBuilder.getOkResponse(zvanja);
+        } catch (Exception e) {
+            return ResponseBuilder.getErrorResponse(e.getMessage());
+        }
+    }
+
     @PostMapping
-    public IResponse create(@RequestBody ZvanjeDTO zvanje) {
+    public IResponse create(@RequestBody ZvanjeDTO zvanje
+    ) {
         try {
             Zvanje kreiranoZvanje = service.save(zvanje);
             return ResponseBuilder.getOkResponse(kreiranoZvanje);
@@ -52,7 +69,8 @@ public class ZvanjeController {
     }
 
     @RequestMapping(path = "/{id}", method = RequestMethod.GET)
-    public IResponse getById(@PathVariable int id) {
+    public IResponse getById(@PathVariable int id
+    ) {
         try {
             Zvanje zvanje = service.findById(id);
             return ResponseBuilder.getOkResponse(zvanje);
@@ -62,7 +80,8 @@ public class ZvanjeController {
     }
 
     @RequestMapping(path = "{id}", method = RequestMethod.DELETE)
-    public IResponse delete(@PathVariable int id) {
+    public IResponse delete(@PathVariable int id
+    ) {
         try {
             Zvanje zvanje = service.findById(id);
             service.delete(zvanje);
@@ -73,7 +92,9 @@ public class ZvanjeController {
     }
 
     @RequestMapping(path = "{id}", method = RequestMethod.PUT)
-    public IResponse update(@PathVariable("id") int id, @RequestBody Zvanje toUpdate) {
+    public IResponse update(@PathVariable("id") int id,
+            @RequestBody Zvanje toUpdate
+    ) {
         try {
             if (id != toUpdate.getId()) {
                 throw new Exception("Грешка. Идентификатори су различити.");

@@ -24,7 +24,9 @@ import javax.persistence.Table;
 @NamedQueries({
     @NamedQuery(name = "Zvanje.findAll", query = "from Zvanje z")
     , @NamedQuery(name = "Zvanje.findByZvanjeId", query = "SELECT z FROM Zvanje z WHERE z.id = :zvanjeId")
-    , @NamedQuery(name = "Zvanje.findByNaziv", query = "SELECT z FROM Zvanje z WHERE z.naziv = :naziv")})
+    , @NamedQuery(name = "Zvanje.findByNaziv", query = "SELECT z FROM Zvanje z WHERE z.naziv = :naziv")
+        , @NamedQuery(name = "Zvanje.LoadNazivLike", query = "from Zvanje z WHERE z.naziv LIKE :naziv")
+})
 public class Zvanje implements Serializable {
 
     @Id

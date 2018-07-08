@@ -6,9 +6,6 @@
 package dto;
 
 import model.Fakultet;
-import model.NaucnaOblast;
-import model.PravnaForma;
-import model.VrstaOrganizacije;
 
 /**
  *

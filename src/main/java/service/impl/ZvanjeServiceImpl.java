@@ -8,9 +8,9 @@ package service.impl;
 import dto.ZvanjeDTO;
 import hibernate.HibernateUtil;
 import java.util.List;
-import javax.validation.ConstraintViolationException;
 import model.Zvanje;
 import org.hibernate.Session;
+import org.hibernate.exception.ConstraintViolationException;
 import org.hibernate.type.StringType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.RequestScope;
@@ -90,9 +90,12 @@ public class ZvanjeServiceImpl implements IZvanjeService {
     public Zvanje delete(Zvanje zvanje) throws Exception {
         try {
             session.getTransaction().begin();
-            session.remove(zvanje);
+            session.delete(zvanje);
             session.getTransaction().commit();
             return zvanje;
+        } catch (ConstraintViolationException cvex) {
+            session.getTransaction().rollback();
+            throw new Exception("Звање не може да буде обрисано. Повезано је са другим ентитетима.");
         } catch (Exception e) {
             session.getTransaction().rollback();
             throw e;

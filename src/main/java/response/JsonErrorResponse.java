@@ -14,7 +14,7 @@ import java.io.Serializable;
 public class JsonErrorResponse implements IResponse, Serializable {
 
     private int status;
-    private String error;
+    private String message;
 
     public static JsonErrorResponse create(String message) {
         return new JsonErrorResponse(400, message);
@@ -22,15 +22,23 @@ public class JsonErrorResponse implements IResponse, Serializable {
 
     public JsonErrorResponse(int status, String error) {
         this.status = status;
-        this.error = error;
+        this.message = error;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 
     public String getMessage() {
-        return error;
+        return message;
     }
 
     public void setMessage(String message) {
-        this.error = message;
+        this.message = message;
     }
 
 }

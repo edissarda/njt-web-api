@@ -12,10 +12,8 @@ import javax.validation.ConstraintViolationException;
 import model.Zvanje;
 import org.hibernate.Session;
 import org.hibernate.type.StringType;
-import org.springframework.context.annotation.Scope;
-import org.springframework.context.annotation.ScopedProxyMode;
-import org.springframework.stereotype.Component;
-import org.springframework.web.context.WebApplicationContext;
+import org.springframework.stereotype.Service;
+import org.springframework.web.context.annotation.RequestScope;
 import service.IZvanjeService;
 import validator.Validator;
 
@@ -23,8 +21,8 @@ import validator.Validator;
  *
  * @author edis
  */
-@Component(value = "ZvanjeServiceImpl")
-@Scope(value = WebApplicationContext.SCOPE_SESSION, proxyMode = ScopedProxyMode.TARGET_CLASS)
+@Service
+@RequestScope
 public class ZvanjeServiceImpl implements IZvanjeService {
 
     private Session session;

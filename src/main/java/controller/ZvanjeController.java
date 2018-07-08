@@ -9,6 +9,7 @@ import dto.ZvanjeDTO;
 import java.util.List;
 import model.Zvanje;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.annotation.SessionScope;
 import response.IResponse;
 import response.ResponseBuilder;
 import service.IZvanjeService;
@@ -26,7 +28,9 @@ import service.IZvanjeService;
  * @author edis
  */
 @RestController
-@RequestMapping(path = "/zvanje")
+@RequestMapping(path = "zvanje")
+@CrossOrigin(origins = "http://localhost:3000")
+@SessionScope
 public class ZvanjeController {
 
     @Autowired(required = true)
@@ -44,10 +48,8 @@ public class ZvanjeController {
 
     @GetMapping(path = "/find")
     public IResponse find(
-            @RequestParam(required = true)
-                    String naziv, 
-            @RequestParam(required = false, defaultValue = "5")
-                    int limit
+            @RequestParam(required = true) String naziv,
+            @RequestParam(required = false, defaultValue = "5") int limit
     ) {
         try {
             List<Zvanje> zvanja = service.find(naziv, limit);

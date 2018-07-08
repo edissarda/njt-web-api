@@ -7,35 +7,35 @@ package service.impl;
 
 import hibernate.HibernateUtil;
 import java.util.List;
-import model.TipRukovodioca;
+import model.VrstaOrganizacije;
 import org.hibernate.Session;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.RequestScope;
-import service.ITipRukovodiocaService;
+import service.IVrstaOrganizacijeService;
 
 /**
  *
  * @author edis
  */
-@Component
+@Service
 @RequestScope
-public class TipRukovodiocaServiceImpl implements ITipRukovodiocaService {
+public class VrstaOrganizacijeServiceImpl implements IVrstaOrganizacijeService {
 
     private Session session;
 
-    public TipRukovodiocaServiceImpl() {
+    public VrstaOrganizacijeServiceImpl() {
         session = HibernateUtil.getInstance().getNewSession();
     }
 
     @Override
-    public List<TipRukovodioca> loadAll() throws Exception {
+    public List<VrstaOrganizacije> loadAll() throws Exception {
         try {
-            List<TipRukovodioca> tipoviRukovodoica
-                    = session.createNamedQuery("TipRukovodioca.LoadAll")
+            List<VrstaOrganizacije> vrsteOrganizacija
+                    = session.createNamedQuery("VrstaOrganizacije.LoadAll", VrstaOrganizacije.class)
                             .getResultList();
-            return tipoviRukovodoica;
+            return vrsteOrganizacija;
         } catch (Exception e) {
-            throw new Exception("Грешка приликом учитавања типова руководиоца.");
+            throw new Exception("Грешка приликом учитавања врста организације.");
         }
     }
 

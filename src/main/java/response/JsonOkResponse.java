@@ -6,7 +6,9 @@
 package response;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.List;
+import java.util.stream.Stream;
 
 /**
  *
@@ -62,8 +64,8 @@ public class JsonOkResponse implements IResponse, Serializable {
     }
 
     public void setCount() {
-        if (data instanceof List) {
-            List aData = (List) data;
+        if (data instanceof Collection) {
+            Collection aData = (Collection) data;
             this.count = aData.size();
         } else {
             this.count = 1;

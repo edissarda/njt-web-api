@@ -7,6 +7,7 @@ package dto;
 
 import java.io.Serializable;
 import javax.validation.constraints.NotBlank;
+import model.Zvanje;
 
 /**
  *
@@ -14,11 +15,23 @@ import javax.validation.constraints.NotBlank;
  */
 public class ZvanjeDTO implements Serializable {
 
+    private Integer id;
+
     @NotBlank(message = "Назив звања не сме бити непознат.")
     private String naziv;
 
     public ZvanjeDTO(String naziv) {
         this.naziv = naziv;
+    }
+
+    public ZvanjeDTO(Zvanje zvanje) {
+        if (zvanje == null) {
+            id = -1;
+            naziv = "NEPOZNATO";
+        } else {
+            this.id = zvanje.getId();
+            this.naziv = zvanje.getNaziv();
+        }
     }
 
     public ZvanjeDTO() {
@@ -30,6 +43,14 @@ public class ZvanjeDTO implements Serializable {
 
     public void setNaziv(String naziv) {
         this.naziv = naziv;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
 }

@@ -8,9 +8,15 @@
     <property name="hibernate.connection.username">root</property>
     <property name="hibernate.show_sql">false</property>
     <property name="hibernate.format_sql">true</property>
-    <property name="hibernate.connection.pool_size">1</property>
+    <property name="hibernate.connection.pool_size">100</property>
     <property name="hibernate.current_session_context_class">thread</property>
     <mapping class="model.Zvanje"/>
-    <mapping class="model.TipRukovodioca" />
+    <mapping class="model.TipRukovodioca"/>
+    <mapping class="model.PravnaForma"/>
+    <mapping class="model.VrstaOrganizacije"/>
+    <mapping class="model.NaucnaOblast"/>
+    <mapping class="model.Fakultet"/>
+    <mapping class="model.Rukovodilac"/>
+    <mapping class="model.Nastavnik"/>
   </session-factory>
 </hibernate-configuration>

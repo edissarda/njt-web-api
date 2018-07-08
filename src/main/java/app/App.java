@@ -15,7 +15,7 @@ import org.springframework.context.annotation.ComponentScan;
  * @author edis
  */
 @SpringBootApplication
-@ComponentScan(basePackages = {"app", "controller", "service", "hibernate"})
+@ComponentScan(basePackages = {"app", "controller", "service"})
 public class App {
 
     public static void main(String[] args) {

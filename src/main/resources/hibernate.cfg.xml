@@ -9,8 +9,6 @@
     <property name="hibernate.show_sql">false</property>
     <property name="hibernate.format_sql">true</property>
     <property name="hibernate.connection.pool_size">100</property>
-    <property name="hibernate.current_session_context_class">thread</property>
-    <property name="hibernate.transaction.auto_close_session">true</property>
     <mapping class="model.Zvanje"/>
     <mapping class="model.TipRukovodioca"/>
     <mapping class="model.PravnaForma"/>

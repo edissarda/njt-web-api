@@ -6,7 +6,6 @@
 package dto;
 
 import java.io.Serializable;
-import javax.validation.constraints.NotBlank;
 import model.Zvanje;
 
 /**
@@ -17,7 +16,6 @@ public class ZvanjeDTO implements Serializable {
 
     private Integer id;
 
-    @NotBlank(message = "Назив звања не сме бити непознат.")
     private String naziv;
 
     public ZvanjeDTO(String naziv) {

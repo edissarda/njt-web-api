@@ -43,12 +43,6 @@ public class ZvanjeServiceImpl implements IZvanjeService {
 
     @Override
     public Zvanje save(ZvanjeDTO zvanjeDTO) throws Exception {
-        try {
-            Validator.validate(zvanjeDTO);
-        } catch (Exception e) {
-            throw new Exception(e.getMessage());
-        }
-
         List resultList = session.createNamedQuery("Zvanje.findByNaziv", Zvanje.class)
                 .setParameter("naziv", zvanjeDTO.getNaziv(), StringType.INSTANCE)
                 .getResultList();
@@ -56,16 +50,20 @@ public class ZvanjeServiceImpl implements IZvanjeService {
         if (!resultList.isEmpty()) {
             throw new Exception("Звање са називом " + zvanjeDTO.getNaziv() + " већ постоји.");
         }
+        
+        Zvanje zvanjeZaInsert = new Zvanje(zvanjeDTO.getNaziv());
 
         try {
-            Zvanje zvanjeZaInsert = new Zvanje(zvanjeDTO.getNaziv());
+            Validator.validate(zvanjeZaInsert);
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
+        }
+
+        try {
             session.getTransaction().begin();
             Integer id = (Integer) session.save(zvanjeZaInsert);
             session.getTransaction().commit();
             return session.get(Zvanje.class, id);
-        } catch (ConstraintViolationException cvex) {
-            session.getTransaction().rollback();
-            throw new Exception(cvex.getLocalizedMessage());
         } catch (Exception e) {
             session.getTransaction().rollback();
             throw new Exception("Грешка. Звање није сачувано.");

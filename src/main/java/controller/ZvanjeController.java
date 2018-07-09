@@ -82,12 +82,10 @@ public class ZvanjeController {
     }
 
     @RequestMapping(path = "{id}", method = RequestMethod.DELETE)
-    public IResponse delete(@PathVariable int id
-    ) {
+    public IResponse delete(@PathVariable int id) {
         try {
-            Zvanje zvanje = service.findById(id);
-            service.delete(zvanje);
-            return ResponseBuilder.getOkResponse(zvanje);
+            ZvanjeDTO zvanjeDTO = new ZvanjeDTO(service.delete(id));
+            return ResponseBuilder.getOkResponse(zvanjeDTO);
         } catch (Exception e) {
             return ResponseBuilder.getErrorResponse(e.getMessage());
         }
@@ -95,15 +93,14 @@ public class ZvanjeController {
 
     @RequestMapping(path = "{id}", method = RequestMethod.PUT)
     public IResponse update(@PathVariable("id") int id,
-            @RequestBody Zvanje toUpdate
-    ) {
+            @RequestBody ZvanjeDTO toUpdate) {
         try {
             if (id != toUpdate.getId()) {
                 throw new Exception("Грешка. Идентификатори су различити.");
             }
 
-            Zvanje updated = service.update(toUpdate);
-            return ResponseBuilder.getOkResponse(updated);
+            ZvanjeDTO updatedDTO = new ZvanjeDTO(service.update(toUpdate));
+            return ResponseBuilder.getOkResponse(updatedDTO);
         } catch (Exception e) {
             return ResponseBuilder.getErrorResponse(e.getMessage());
         }

@@ -21,6 +21,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
@@ -32,7 +33,10 @@ import org.hibernate.annotations.CascadeType;
 @Entity
 @Table(name = "fakultet")
 @NamedQueries({
-    @NamedQuery(name = "Fakultet.LoadAll", query = "from Fakultet")
+    @NamedQuery(name = "Fakultet.LoadAll", query = "from Fakultet"),
+    @NamedQuery(name = "Fakultet.FindByMaticniBroj", query = "from Fakultet f where f.maticniBroj = :maticniBroj"),
+    @NamedQuery(name = "Fakultet.FindByPoreskiBroj", query = "from Fakultet f where f.poreskiBroj = :poreskiBroj"),
+    @NamedQuery(name = "Fakultet.FindByNaziv", query = "from Fakultet f where f.naziv = :naziv")
 })
 public class Fakultet implements Serializable {
 
@@ -69,6 +73,7 @@ public class Fakultet implements Serializable {
 
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "fakultet_id")
+    @OrderBy(value = "datum_do DESC")
     private List<Rukovodilac> rukovodioci;
 
     @ManyToMany(fetch = FetchType.LAZY)

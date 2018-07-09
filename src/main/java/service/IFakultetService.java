@@ -5,6 +5,7 @@
  */
 package service;
 
+import dto.FakultetDTO;
 import java.util.List;
 import model.Fakultet;
 import model.Rukovodilac;
@@ -20,4 +21,6 @@ public interface IFakultetService {
     public List<Rukovodilac> ucitajRukovodioceZaFakultet(Integer fakultetID) throws Exception;
 
     public Fakultet loadById(Integer id) throws Exception;
+
+    public Fakultet create(FakultetDTO fakultetDTO) throws Exception;
 }

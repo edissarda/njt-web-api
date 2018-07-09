@@ -43,6 +43,12 @@ public class ZvanjeServiceImpl implements IZvanjeService {
 
     @Override
     public Zvanje save(ZvanjeDTO zvanjeDTO) throws Exception {
+        try {
+            Validator.validate(zvanjeDTO);
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
+        }
+
         List resultList = session.createNamedQuery("Zvanje.findByNaziv", Zvanje.class)
                 .setParameter("naziv", zvanjeDTO.getNaziv(), StringType.INSTANCE)
                 .getResultList();
@@ -50,14 +56,8 @@ public class ZvanjeServiceImpl implements IZvanjeService {
         if (!resultList.isEmpty()) {
             throw new Exception("Звање са називом " + zvanjeDTO.getNaziv() + " већ постоји.");
         }
-        
-        Zvanje zvanjeZaInsert = new Zvanje(zvanjeDTO.getNaziv());
 
-        try {
-            Validator.validate(zvanjeZaInsert);
-        } catch (Exception e) {
-            throw new Exception(e.getMessage());
-        }
+        Zvanje zvanjeZaInsert = new Zvanje(zvanjeDTO.getNaziv());
 
         try {
             session.getTransaction().begin();
@@ -85,8 +85,9 @@ public class ZvanjeServiceImpl implements IZvanjeService {
     }
 
     @Override
-    public Zvanje delete(Zvanje zvanje) throws Exception {
+    public Zvanje delete(Integer id) throws Exception {
         try {
+            Zvanje zvanje = findById(id);
             session.getTransaction().begin();
             session.delete(zvanje);
             session.getTransaction().commit();
@@ -101,16 +102,24 @@ public class ZvanjeServiceImpl implements IZvanjeService {
     }
 
     @Override
-    public Zvanje update(Zvanje toUpdate) throws Exception {
+    public Zvanje update(ZvanjeDTO zvanjeDTO) throws Exception {
         try {
-            System.out.println(toUpdate);
-            Zvanje fromDb = findById(toUpdate.getId());
+            Validator.validate(zvanjeDTO);
+
+            List<Zvanje> zvanjaSaNazivom = session.createNamedQuery("Zvanje.findByNaziv")
+                    .setParameter("naziv", zvanjeDTO.getNaziv(), StringType.INSTANCE)
+                    .getResultList();
+
+            if (!zvanjaSaNazivom.isEmpty()) {
+                throw new Exception("Звање са називом " + zvanjeDTO.getNaziv() + " већ постоји.");
+            }
 
             session.getTransaction().begin();
-            Zvanje updated = (Zvanje) session.merge(toUpdate);
+            Zvanje fromDb = findById(zvanjeDTO.getId());
+            fromDb.setNaziv(zvanjeDTO.getNaziv());
             session.getTransaction().commit();
 
-            return updated;
+            return fromDb;
         } catch (Exception e) {
             session.getTransaction().rollback();
             throw e;

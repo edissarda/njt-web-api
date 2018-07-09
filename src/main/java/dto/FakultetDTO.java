@@ -5,28 +5,41 @@
  */
 package dto;
 
+import java.io.Serializable;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import model.Fakultet;
 
 /**
  *
  * @author edis
  */
-public class FakultetDTO {
+public class FakultetDTO implements Serializable {
 
     private Integer id;
 
+    @NotBlank(message = "Назив факултета не сме бити непознат")
     private String naziv;
+
+    @NotBlank(message = "Назив факултета не сме бити непознат")
+    @Size(min = 8, max = 8, message = "Матични број мора имати тачно 8 цифара")
 
     private String maticniBroj;
 
+    @NotBlank(message = "Порески број не сме бити непознат")
     private String poreskiBroj;
 
+    @NotNull(message = "Опис не сме бити непознат")
     private String opis;
 
+    @NotNull
     private VrstaOrganizacijeDTO vrstaOrganizacije;
 
+    @NotNull
     private PravnaFormaDTO pravnaForma;
 
+    @NotNull
     private NaucnaOblastDTO naucnaOblast;
 
     public FakultetDTO() {

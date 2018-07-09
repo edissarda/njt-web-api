@@ -21,9 +21,9 @@ public interface IZvanjeService {
 
     public Zvanje findById(int id) throws Exception;
 
-    public Zvanje delete(Zvanje zvanje) throws Exception;
+    public Zvanje delete(Integer id) throws Exception;
 
-    public Zvanje update(Zvanje toUpdate) throws Exception;
+    public Zvanje update(ZvanjeDTO toUpdate) throws Exception;
 
     public List<Zvanje> find(String naziv, int limit) throws Exception;
 }

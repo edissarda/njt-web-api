@@ -20,6 +20,8 @@ public class RukovodilacDTO implements Serializable {
     private String datumOd;
     private String datumDo;
     private ZvanjeDTO zvanje;
+    private TitulaDTO titula;
+    private TipRukovodiocaDTO tipRukovodioca;
 
     public RukovodilacDTO(Rukovodilac r) {
         if (r != null) {
@@ -28,6 +30,8 @@ public class RukovodilacDTO implements Serializable {
             this.datumOd = r.getDatumOd().format(DateTimeFormatter.ofPattern("dd.MM.yyyy."));
             this.datumDo = r.getDatumDo().format(DateTimeFormatter.ofPattern("dd.MM.yyyy."));
             this.zvanje = new ZvanjeDTO(r.getZvanje());
+            this.titula = new TitulaDTO(r.getTitula());
+            this.tipRukovodioca = new TipRukovodiocaDTO(r.getTipRukovodioca());
         }
     }
 
@@ -72,6 +76,22 @@ public class RukovodilacDTO implements Serializable {
 
     public void setZvanje(ZvanjeDTO zvanje) {
         this.zvanje = zvanje;
+    }
+
+    public TitulaDTO getTitula() {
+        return titula;
+    }
+
+    public void setTitula(TitulaDTO titula) {
+        this.titula = titula;
+    }
+
+    public TipRukovodiocaDTO getTipRukovodioca() {
+        return tipRukovodioca;
+    }
+
+    public void setTipRukovodioca(TipRukovodiocaDTO tipRukovodioca) {
+        this.tipRukovodioca = tipRukovodioca;
     }
 
 }

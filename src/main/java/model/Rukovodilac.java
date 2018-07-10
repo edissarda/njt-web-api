@@ -44,6 +44,14 @@ public class Rukovodilac implements Serializable {
     @JoinColumn(name = "nastavnik_id")
     private Nastavnik nastavnik;
 
+    @ManyToOne
+    @JoinColumn(name = "titula_fk")
+    private Titula titula;
+
+    @ManyToOne
+    @JoinColumn(name = "tip_rukovodioca_fk")
+    private TipRukovodioca tipRukovodioca;
+
     public Rukovodilac() {
     }
 
@@ -93,6 +101,22 @@ public class Rukovodilac implements Serializable {
 
     public void setNastavnik(Nastavnik nastavnik) {
         this.nastavnik = nastavnik;
+    }
+
+    public Titula getTitula() {
+        return titula;
+    }
+
+    public void setTitula(Titula titula) {
+        this.titula = titula;
+    }
+
+    public TipRukovodioca getTipRukovodioca() {
+        return tipRukovodioca;
+    }
+
+    public void setTipRukovodioca(TipRukovodioca tipRukovodioca) {
+        this.tipRukovodioca = tipRukovodioca;
     }
 
 }

@@ -17,5 +17,6 @@
     <mapping class="model.Fakultet"/>
     <mapping class="model.Rukovodilac"/>
     <mapping class="model.Nastavnik"/>
+    <mapping class="model.Titula"/>
   </session-factory>
 </hibernate-configuration>

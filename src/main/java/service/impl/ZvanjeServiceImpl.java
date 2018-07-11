@@ -9,6 +9,7 @@ import dto.ZvanjeDTO;
 import hibernate.HibernateUtil;
 import java.util.List;
 import model.Zvanje;
+import org.hibernate.FlushMode;
 import org.hibernate.Session;
 import org.hibernate.exception.ConstraintViolationException;
 import org.hibernate.type.StringType;
@@ -88,11 +89,13 @@ public class ZvanjeServiceImpl implements IZvanjeService {
     public Zvanje delete(Integer id) throws Exception {
         try {
             Zvanje zvanje = findById(id);
+
             session.getTransaction().begin();
             session.delete(zvanje);
             session.getTransaction().commit();
+
             return zvanje;
-        } catch (ConstraintViolationException cvex) {
+        } catch (RuntimeException rte) {
             session.getTransaction().rollback();
             throw new Exception("Звање не може да буде обрисано. Повезано је са другим ентитетима.");
         } catch (Exception e) {

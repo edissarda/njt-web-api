@@ -24,5 +24,6 @@
         <mapping class="model.TipPodatkaOFakultetu"/>
         <mapping class="model.PodatakOFakultetu"/>
         <mapping class="model.Titula"/>
+        <mapping class="model.Nastavnik"/>
     </session-factory>
 </hibernate-configuration>

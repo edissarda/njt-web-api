@@ -6,14 +6,14 @@
 package service;
 
 import java.util.List;
-import model.Rukovodilac;
+import model.Nastavnik;
 
 /**
  *
  * @author edis
  */
-public interface IRukovodilacService {
+public interface INastavnikService {
 
-    public List<Rukovodilac> loadAll() throws Exception;
+    public List<Nastavnik> loadAll() throws Exception;
 
 }

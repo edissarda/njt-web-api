@@ -8,10 +8,13 @@ package service.impl;
 import dto.FakultetDTO;
 import hibernate.HibernateUtil;
 import java.util.List;
+import java.util.stream.Collectors;
 import model.Fakultet;
 import model.NaucnaOblast;
+import model.PodatakOFakultetu;
 import model.PravnaForma;
 import model.Rukovodilac;
+import model.TipPodatkaOFakultetu;
 import model.VrstaOrganizacije;
 import org.hibernate.Session;
 import org.hibernate.type.StringType;
@@ -88,7 +91,7 @@ public class FakultetServiceImpl implements IFakultetService {
             if (!fakultetiSaMaticnimBrojem.isEmpty()) {
                 throw new Exception("факултет са матичним бројем " + fakultetDTO.getMaticniBroj() + " већ постоји");
             }
-            
+
             List<Fakultet> fakultetiSaPoreskimBrojem = session.createNamedQuery("Fakultet.FindByPoreskiBroj", Fakultet.class)
                     .setParameter("poreskiBroj", fakultetDTO.getPoreskiBroj(), StringType.INSTANCE)
                     .getResultList();
@@ -100,24 +103,24 @@ public class FakultetServiceImpl implements IFakultetService {
                     .setParameter("naziv", fakultetDTO.getNaziv(), StringType.INSTANCE)
                     .getResultList();
             if (!fakultetiSaNazivom.isEmpty()) {
-                throw new Exception("Факултет са називом " + fakultetDTO.getNaziv()+ " већ постоји");
+                throw new Exception("Факултет са називом " + fakultetDTO.getNaziv() + " већ постоји");
             }
-            
+
             VrstaOrganizacije vrstaOrganizacije = session.get(VrstaOrganizacije.class, fakultetDTO.getVrstaOrganizacije().getId());
             if (vrstaOrganizacije == null) {
                 throw new Exception("Врста организације коју сте изабрали не постоји");
             }
-            
+
             PravnaForma pravnaForma = session.get(PravnaForma.class, fakultetDTO.getPravnaForma().getId());
             if (pravnaForma == null) {
                 throw new Exception("Правна форма коју сте изабрали не постоји");
             }
-            
+
             NaucnaOblast naucnaOblast = session.get(NaucnaOblast.class, fakultetDTO.getNaucnaOblast().getId());
             if (naucnaOblast == null) {
                 throw new Exception("Научна област коју сте изабрали не постоји");
             }
-            
+
             Fakultet fakultet = new Fakultet();
             fakultet.setNaziv(fakultetDTO.getNaziv());
             fakultet.setMaticniBroj(fakultetDTO.getMaticniBroj());
@@ -126,12 +129,28 @@ public class FakultetServiceImpl implements IFakultetService {
             fakultet.setVrstaOrganizacije(vrstaOrganizacije);
             fakultet.setPravnaForma(pravnaForma);
             fakultet.setNaucnaOblast(naucnaOblast);
-            
+
+            List<PodatakOFakultetu> podaciOFakultetu = fakultetDTO.getPodaci().stream().map(p -> new PodatakOFakultetu(p)).collect(Collectors.toList());
+
+            for (PodatakOFakultetu podatakOFakultetu : podaciOFakultetu) {
+                TipPodatkaOFakultetu tipPodatka = session.get(TipPodatkaOFakultetu.class, podatakOFakultetu.getTipPodatka().getId());
+                if (tipPodatka == null) {
+                    throw new Exception("Тип податка " + podatakOFakultetu.getTipPodatka().getNaziv() + " не постоји.");
+                }
+
+                podatakOFakultetu.setTipPodatka(tipPodatka);
+                podatakOFakultetu.setFakultet(fakultet);
+            }
+
+            fakultet.setPodaci(podaciOFakultetu);
+
             session.getTransaction().begin();
             Integer id = (Integer) session.save(fakultet);
             session.getTransaction().commit();
-            
+
             return loadById(id);
+        } catch (RuntimeException rte) {
+            throw new Exception("Грешка приликом чувања факултета");
         } catch (Exception e) {
             session.getTransaction().rollback();
             throw e;

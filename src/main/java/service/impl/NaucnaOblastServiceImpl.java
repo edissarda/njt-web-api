@@ -5,6 +5,7 @@
  */
 package service.impl;
 
+import service.INaucnaOblastService;
 import hibernate.HibernateUtil;
 import java.util.List;
 import model.NaucnaOblast;

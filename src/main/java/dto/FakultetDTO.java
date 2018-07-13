@@ -6,6 +6,9 @@
 package dto;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -24,7 +27,6 @@ public class FakultetDTO implements Serializable {
 
     @NotBlank(message = "Назив факултета не сме бити непознат")
     @Size(min = 8, max = 8, message = "Матични број мора имати тачно 8 цифара")
-
     private String maticniBroj;
 
     @NotBlank(message = "Порески број не сме бити непознат")
@@ -42,6 +44,8 @@ public class FakultetDTO implements Serializable {
     @NotNull
     private NaucnaOblastDTO naucnaOblast;
 
+    private List<PodatakOFakultetuDTO> podaci = new ArrayList<>();
+
     public FakultetDTO() {
     }
 
@@ -55,6 +59,7 @@ public class FakultetDTO implements Serializable {
             this.vrstaOrganizacije = new VrstaOrganizacijeDTO(f.getVrstaOrganizacije());
             this.naucnaOblast = new NaucnaOblastDTO(f.getNaucnaOblast());
             this.pravnaForma = new PravnaFormaDTO(f.getPravnaForma());
+            this.podaci = f.getPodaci().stream().map(p -> new PodatakOFakultetuDTO(p)).collect(Collectors.toList());
         }
     }
 
@@ -120,6 +125,14 @@ public class FakultetDTO implements Serializable {
 
     public void setNaucnaOblast(NaucnaOblastDTO naucnaOblast) {
         this.naucnaOblast = naucnaOblast;
+    }
+
+    public List<PodatakOFakultetuDTO> getPodaci() {
+        return podaci;
+    }
+
+    public void setPodaci(List<PodatakOFakultetuDTO> podaci) {
+        this.podaci = podaci;
     }
 
 }

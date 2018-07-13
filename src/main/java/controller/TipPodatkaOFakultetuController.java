@@ -5,11 +5,10 @@
  */
 package controller;
 
-import dto.NaucnaOblastDTO;
+import dto.TipPodatkaOFakultetuDTO;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
-import model.NaucnaOblast;
+import model.TipPodatkaOFakultetu;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,31 +17,31 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.annotation.SessionScope;
 import response.IResponse;
 import response.ResponseBuilder;
-import service.INaucnaOblastService;
+import service.ITipPodatkaOFakultetuService;
 
 /**
  *
  * @author edis
  */
 @RestController
-@RequestMapping(path = "naucna-oblast")
-@CrossOrigin(origins = "http://localhost:3000")
+@RequestMapping("tip-podatka")
 @SessionScope
-public class NaucnaOblastController {
+@CrossOrigin(origins = "http://localhost:3000")
+public class TipPodatkaOFakultetuController {
 
     @Autowired
-    private INaucnaOblastService service;
+    private ITipPodatkaOFakultetuService service;
 
     @GetMapping
     public IResponse loadAll() {
         try {
-            List<NaucnaOblast> naucneOblasti = service.loadAll();
-            List<NaucnaOblastDTO> naucneOblastiDTO = 
-                    naucneOblasti.stream()
-                    .map(no -> new NaucnaOblastDTO(no)).collect(Collectors.toList());
-            return ResponseBuilder.getOkResponse(naucneOblastiDTO);
+            List<TipPodatkaOFakultetu> tipoviPodataka = service.loadAll();
+            List<TipPodatkaOFakultetuDTO> tipoviPodatakaDTO
+                    = tipoviPodataka.stream().map(tp -> new TipPodatkaOFakultetuDTO(tp)).collect(Collectors.toList());
+            return ResponseBuilder.getOkResponse(tipoviPodatakaDTO);
         } catch (Exception e) {
             return ResponseBuilder.getErrorResponse(e.getMessage());
         }
     }
+
 }

@@ -6,6 +6,7 @@
 package model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -33,9 +34,12 @@ import org.hibernate.annotations.CascadeType;
 @Entity
 @Table(name = "fakultet")
 @NamedQueries({
-    @NamedQuery(name = "Fakultet.LoadAll", query = "from Fakultet"),
-    @NamedQuery(name = "Fakultet.FindByMaticniBroj", query = "from Fakultet f where f.maticniBroj = :maticniBroj"),
-    @NamedQuery(name = "Fakultet.FindByPoreskiBroj", query = "from Fakultet f where f.poreskiBroj = :poreskiBroj"),
+    @NamedQuery(name = "Fakultet.LoadAll", query = "from Fakultet")
+    ,
+    @NamedQuery(name = "Fakultet.FindByMaticniBroj", query = "from Fakultet f where f.maticniBroj = :maticniBroj")
+    ,
+    @NamedQuery(name = "Fakultet.FindByPoreskiBroj", query = "from Fakultet f where f.poreskiBroj = :poreskiBroj")
+    ,
     @NamedQuery(name = "Fakultet.FindByNaziv", query = "from Fakultet f where f.naziv = :naziv")
 })
 public class Fakultet implements Serializable {
@@ -74,7 +78,7 @@ public class Fakultet implements Serializable {
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "fakultet_id")
     @OrderBy(value = "datum_do DESC")
-    private List<Rukovodilac> rukovodioci;
+    private List<Rukovodilac> rukovodioci = new ArrayList<>();
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
@@ -82,7 +86,11 @@ public class Fakultet implements Serializable {
             joinColumns = @JoinColumn(name = "fakultet_id"),
             inverseJoinColumns = @JoinColumn(name = "rukovodilac_id")
     )
-    private List<Nastavnik> nastavnici;
+    private List<Nastavnik> nastavnici = new ArrayList<>();
+
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "fakultet")
+    @Cascade(CascadeType.SAVE_UPDATE)
+    private List<PodatakOFakultetu> podaci;
 
     public Fakultet() {
     }
@@ -157,6 +165,14 @@ public class Fakultet implements Serializable {
 
     public List<Nastavnik> getNastavnici() {
         return nastavnici;
+    }
+
+    public List<PodatakOFakultetu> getPodaci() {
+        return podaci;
+    }
+
+    public void setPodaci(List<PodatakOFakultetu> podaci) {
+        this.podaci = podaci;
     }
 
 }

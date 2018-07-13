@@ -61,6 +61,7 @@ public class FakultetController {
     @PostMapping
     public IResponse save(@RequestBody FakultetDTO fakultetDTO) {
         try {
+            System.out.println(fakultetDTO.getPodaci().size());
             Fakultet fakultet = service.create(fakultetDTO);
             return ResponseBuilder.getOkResponse(new FakultetDTO(fakultet));
         } catch (Exception e) {

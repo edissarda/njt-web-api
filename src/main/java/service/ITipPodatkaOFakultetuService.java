@@ -3,16 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package service.impl;
+package service;
 
 import java.util.List;
-import model.NaucnaOblast;
+import model.TipPodatkaOFakultetu;
 
 /**
  *
  * @author edis
  */
-public interface INaucnaOblastService {
+public interface ITipPodatkaOFakultetuService {
 
-    public List<NaucnaOblast> loadAll() throws Exception;
+    public List<TipPodatkaOFakultetu> loadAll() throws Exception;
 }

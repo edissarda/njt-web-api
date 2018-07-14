@@ -41,7 +41,7 @@ public class Rukovodilac implements Serializable {
     private Zvanje zvanje;
 
     @ManyToOne
-    @JoinColumn(name = "nastavnik_id")
+    @JoinColumn(name = "nastavnik_id", insertable = false)
     private Nastavnik nastavnik;
 
     @ManyToOne

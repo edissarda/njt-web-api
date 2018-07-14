@@ -5,14 +5,16 @@
  */
 package dto;
 
+import java.io.Serializable;
 import model.TipRukovodioca;
 
 /**
  *
  * @author edis
  */
-public class TipRukovodiocaDTO {
+public class TipRukovodiocaDTO implements Serializable {
 
+    
     private Integer id;
     private String naziv;
 

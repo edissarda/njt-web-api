@@ -7,16 +7,20 @@ package model;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import org.hibernate.annotations.OrderBy;
 
@@ -38,19 +42,15 @@ public class Nastavnik implements Serializable {
     private String ime;
     private String prezime;
 
-    @ManyToMany
-    @JoinTable(name = "zvanje_nastavnika",
-            joinColumns = @JoinColumn(name = "nastavnik_id"),
-            inverseJoinColumns = @JoinColumn(name = "zvanje_id"))
+    @OneToMany
+    @JoinColumn(name = "nastavnik_id")
     @OrderBy(clause = "datum_od DESC")
-    private List<Zvanje> zvanja;
+    private Set<ZvanjeNastavnika> zvanjaNastavnika;
 
-    @ManyToMany
-    @JoinTable(name = "titula_nastavnika",
-            joinColumns = @JoinColumn(name = "nastavnik_id"),
-            inverseJoinColumns = @JoinColumn(name = "titula_id"))
+    @OneToMany
+    @JoinColumn(name = "nastavnik_id")
     @OrderBy(clause = "datum_od DESC")
-    private List<Titula> titule;
+    private Set<TitulaNastavnika> tituleNastavnika;
 
     public Nastavnik() {
     }
@@ -79,20 +79,20 @@ public class Nastavnik implements Serializable {
         this.prezime = prezime;
     }
 
-    public List<Zvanje> getZvanja() {
-        return zvanja;
+    public Set<ZvanjeNastavnika> getZvanjaNastavnika() {
+        return zvanjaNastavnika;
     }
 
-    public void setZvanja(List<Zvanje> zvanja) {
-        this.zvanja = zvanja;
+    public void setZvanjaNastavnika(Set<ZvanjeNastavnika> zvanjaNastavnika) {
+        this.zvanjaNastavnika = zvanjaNastavnika;
     }
 
-    public List<Titula> getTitule() {
-        return titule;
+    public Set<TitulaNastavnika> getTituleNastavnika() {
+        return tituleNastavnika;
     }
 
-    public void setTitule(List<Titula> titule) {
-        this.titule = titule;
+    public void setTituleNastavnika(Set<TitulaNastavnika> tituleNastavnika) {
+        this.tituleNastavnika = tituleNastavnika;
     }
 
 }

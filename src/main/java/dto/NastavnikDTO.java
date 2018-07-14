@@ -6,6 +6,9 @@
 package dto;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 import model.Nastavnik;
 
 /**
@@ -17,8 +20,8 @@ public class NastavnikDTO implements Serializable {
     private Integer id;
     private String ime;
     private String prezime;
-    private ZvanjeDTO zvanje;
-    private TitulaDTO titula;
+    private List<ZvanjeNastavnikaDTO> zvanja = new ArrayList<>();
+    private List<TitulaNastavnikaDTO> titule = new ArrayList<>();
 
     public NastavnikDTO() {
     }
@@ -29,12 +32,12 @@ public class NastavnikDTO implements Serializable {
             ime = n.getIme();
             prezime = n.getPrezime();
 
-            if (!n.getZvanja().isEmpty()) {
-                zvanje = new ZvanjeDTO(n.getZvanja().get(0));
+            if (!n.getZvanjaNastavnika().isEmpty()) {
+                zvanja = n.getZvanjaNastavnika().stream().map(z -> new ZvanjeNastavnikaDTO(z)).collect(Collectors.toList());
             }
 
-            if (!n.getTitule().isEmpty()) {
-                titula = new TitulaDTO(n.getTitule().get(0));
+            if (!n.getTituleNastavnika().isEmpty()) {
+                titule = n.getTituleNastavnika().stream().map(t -> new TitulaNastavnikaDTO(t)).collect(Collectors.toList());
             }
         }
     }
@@ -63,20 +66,20 @@ public class NastavnikDTO implements Serializable {
         this.prezime = prezime;
     }
 
-    public ZvanjeDTO getZvanje() {
-        return zvanje;
+    public List<ZvanjeNastavnikaDTO> getZvanja() {
+        return zvanja;
     }
 
-    public void setZvanje(ZvanjeDTO zvanje) {
-        this.zvanje = zvanje;
+    public void setZvanja(List<ZvanjeNastavnikaDTO> zvanja) {
+        this.zvanja = zvanja;
     }
 
-    public TitulaDTO getTitula() {
-        return titula;
+    public List<TitulaNastavnikaDTO> getTitule() {
+        return titule;
     }
 
-    public void setTitula(TitulaDTO titula) {
-        this.titula = titula;
+    public void setTitule(List<TitulaNastavnikaDTO> titule) {
+        this.titule = titule;
     }
 
 }

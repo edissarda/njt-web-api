@@ -12,6 +12,8 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import org.hibernate.annotations.FilterDef;
 import org.hibernate.annotations.FilterDefs;
@@ -23,8 +25,13 @@ import org.hibernate.annotations.ParamDef;
  */
 @Entity
 @Table(name = "rukovodilac")
+@NamedQueries({
+    @NamedQuery(name = "Rukovodilac.DaLiJeNastavnikVecRukovodilacDatogTipaZaInterval", query = "from Rukovodilac r WHERE (r.tipRukovodioca.id = :tipRukovodiocaId AND r.nastavnikID = :nastavnikId AND ((:datumOd BETWEEN r.datumOd AND r.datumDo) OR (:datumDo BETWEEN r.datumOd AND r.datumDo) OR (:datumOd <= r.datumOd AND :datumDo >= r.datumOd) OR (:datumOd >= r.datumDo AND :datumDo <= r.datumOd)))")
+    , @NamedQuery(name = "Rukovodilac.DaLiNaFakultetuVecPostojiRukovodilacDatogTipaZaInterval", query = "from Rukovodilac r WHERE (r.fakultetID = :fakultetId AND r.tipRukovodioca.id = :tipRukovodiocaId AND ((:datumOd BETWEEN r.datumOd AND r.datumDo) OR (:datumDo BETWEEN r.datumOd AND r.datumDo) OR (:datumOd <= r.datumOd AND :datumDo >= r.datumOd) OR (:datumOd >= r.datumDo AND :datumDo <= r.datumOd)))")
+})
 @FilterDefs({
-    @FilterDef(name = "filterAktivniRukovodioci", parameters = {@ParamDef(name = "tekuciDatum", type = "date")})
+    @FilterDef(name = "filterAktivniRukovodioci", parameters = {
+        @ParamDef(name = "tekuciDatum", type = "date")})
 })
 public class Rukovodilac implements Serializable {
 

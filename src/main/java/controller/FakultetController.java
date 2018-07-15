@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.annotation.SessionScope;
 import response.IResponse;
@@ -69,9 +70,9 @@ public class FakultetController {
     }
 
     @GetMapping(path = "/{id}/rukovodioci")
-    public IResponse rukovodiociZaFakultet(@PathVariable(name = "id") Integer fakultetID) {
+    public IResponse rukovodiociZaFakultet(@PathVariable(name = "id") Integer fakultetID, @RequestParam(name = "samoAktivni", defaultValue = "false") boolean samoAktivni) {
         try {
-            List<Rukovodilac> rukovodioci = service.ucitajRukovodioceZaFakultet(fakultetID);
+            List<Rukovodilac> rukovodioci = service.ucitajRukovodioceZaFakultet(fakultetID, samoAktivni);
 
             List<RukovodilacDTO> rukovodiociDTO = rukovodioci.stream().map(r -> new RukovodilacDTO(r)).collect(Collectors.toList());
             return ResponseBuilder.getOkResponse(rukovodiociDTO);

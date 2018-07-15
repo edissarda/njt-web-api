@@ -13,6 +13,9 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import org.hibernate.annotations.FilterDef;
+import org.hibernate.annotations.FilterDefs;
+import org.hibernate.annotations.ParamDef;
 
 /**
  *
@@ -20,6 +23,9 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name = "rukovodilac")
+@FilterDefs({
+    @FilterDef(name = "filterAktivniRukovodioci", parameters = {@ParamDef(name = "tekuciDatum", type = "date")})
+})
 public class Rukovodilac implements Serializable {
 
     @Id
@@ -30,6 +36,7 @@ public class Rukovodilac implements Serializable {
     @Column(name = "nastavnik_id")
     private Integer nastavnikID;
 
+    @Id
     @Column(name = "datum_od")
     private LocalDate datumOd;
 

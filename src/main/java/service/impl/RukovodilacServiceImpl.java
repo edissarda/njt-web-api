@@ -7,13 +7,14 @@ package service.impl;
 
 import dto.RukovodilacCreateDTO;
 import hibernate.HibernateUtil;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
+import java.util.List;
 import model.Fakultet;
 import model.Nastavnik;
 import model.Rukovodilac;
 import model.TipRukovodioca;
 import org.hibernate.Session;
+import org.hibernate.type.IntegerType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.RequestScope;
 import service.IRukovodilacService;
@@ -86,15 +87,35 @@ public class RukovodilacServiceImpl implements IRukovodilacService {
             rukovodilac.setTipRukovodioca(tipRukovodioca);
 
             if (nastavnik.getZvanjaNastavnika().isEmpty()) {
-                rukovodilac.setZvanje(null);
+//                throw new Exception("Изабрани наставник нема звање");
             } else {
                 rukovodilac.setZvanje(nastavnik.getZvanjaNastavnika().iterator().next().getZvanje());
             }
 
             if (nastavnik.getTituleNastavnika().isEmpty()) {
-                rukovodilac.setTitula(null);
+//                throw new Exception("Изабрани наставник нема титулу");
             } else {
                 rukovodilac.setTitula(nastavnik.getTituleNastavnika().iterator().next().getTitula());
+            }
+            
+            List<Rukovodilac> rukovodioci = session.createQuery("from Rukovodilac r "
+                    + "                                             WHERE (r.fakultetID = :fakultetId "
+                    + "                                                     AND r.tipRukovodioca.id = :tipRukovodiocaId "
+                    + "                                                     AND ("
+                    + "                                                     (:datumOd BETWEEN r.datumOd AND r.datumDo) OR "
+                    + "                                                     (:datumDo BETWEEN r.datumOd AND r.datumDo) OR "
+                    + "                                                     (:datumOd <= r.datumOd AND :datumDo >= r.datumOd) OR "
+                    + "                                                     (:datumOd >= r.datumDo AND :datumDo <= r.datumOd) "
+                    + "                                                         )"
+                    + ")")
+                    .setParameter("fakultetId", fakultet.getId(), IntegerType.INSTANCE)
+                    .setParameter("tipRukovodiocaId", tipRukovodioca.getId(), IntegerType.INSTANCE)
+                    .setParameter("datumOd", datumOd)
+                    .setParameter("datumDo", datumDo)
+                    .getResultList();
+            
+            if (!rukovodioci.isEmpty()) {
+                throw new Exception("Факултет тренутно има руководиоца изабраног типа у задатом временском периоду");
             }
 
             session.getTransaction().begin();

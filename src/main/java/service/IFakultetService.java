@@ -18,7 +18,7 @@ public interface IFakultetService {
 
     public List<Fakultet> loadAll() throws Exception;
 
-    public List<Rukovodilac> ucitajRukovodioceZaFakultet(Integer fakultetID) throws Exception;
+    public List<Rukovodilac> ucitajRukovodioceZaFakultet(Integer fakultetID, boolean samoAktivni) throws Exception;
 
     public Fakultet loadById(Integer id) throws Exception;
 

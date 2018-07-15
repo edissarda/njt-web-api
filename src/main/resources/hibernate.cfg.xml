@@ -1,34 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
 <hibernate-configuration>
-    <session-factory>
-        <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
-        <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
-        <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/njt</property>
-        <property name="hibernate.connection.username">root</property>
-        <property name="hibernate.connection.pool_size">100</property>
-        <property name="hibernate.connection.characterEncoding">utf-8</property>
-        <property name="hibernate.connection.CharSet">utf8</property>
-        <property name="hibernate.connection.useUnicode">true</property>
-        <property name="hibernate.transaction.auto_close_session">true</property>
-        <property name="hibernate.connection.release_mode">after_transaction</property>
-        <mapping class="model.Zvanje"/>
-        <mapping class="model.TipRukovodioca"/>
-        <mapping class="model.PravnaForma"/>
-        <mapping class="model.VrstaOrganizacije"/>
-        <mapping class="model.NaucnaOblast"/>
-        <mapping class="model.Fakultet"/>
-        <mapping class="model.Rukovodilac"/>
-        <mapping class="model.Nastavnik"/>
-        <mapping class="model.Titula"/>
-        <mapping class="model.TipPodatkaOFakultetu"/>
-        <mapping class="model.PodatakOFakultetu"/>
-        <mapping class="model.Titula"/>
-        <mapping class="model.Nastavnik"/>
-        <mapping class="model.ZvanjeNastavnika"/>
-        <mapping class="model.TitulaNastavnika"/>
-        <mapping class="model.Nastavnik"/>
-        <mapping class="model.Nastavnik"/>
-        <mapping class="model.Nastavnik"/>
-    </session-factory>
+  <session-factory>
+    <property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+    <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+    <property name="hibernate.connection.url">jdbc:mysql://localhost:3306/njt</property>
+    <property name="hibernate.connection.username">root</property>
+    <property name="hibernate.connection.pool_size">100</property>
+    <property name="hibernate.connection.characterEncoding">utf-8</property>
+    <property name="hibernate.connection.CharSet">utf8</property>
+    <property name="hibernate.connection.useUnicode">true</property>
+    <property name="hibernate.transaction.auto_close_session">true</property>
+    <property name="hibernate.connection.release_mode">after_transaction</property>
+    <mapping class="model.Zvanje"/>
+    <mapping class="model.TipRukovodioca"/>
+    <mapping class="model.PravnaForma"/>
+    <mapping class="model.VrstaOrganizacije"/>
+    <mapping class="model.NaucnaOblast"/>
+    <mapping class="model.Fakultet"/>
+    <mapping class="model.Rukovodilac"/>
+    <mapping class="model.Nastavnik"/>
+    <mapping class="model.Titula"/>
+    <mapping class="model.TipPodatkaOFakultetu"/>
+    <mapping class="model.PodatakOFakultetu"/>
+    <mapping class="model.Titula"/>
+    <mapping class="model.Nastavnik"/>
+    <mapping class="model.ZvanjeNastavnika"/>
+    <mapping class="model.TitulaNastavnika"/>
+    <mapping class="model.Nastavnik"/>
+    <mapping class="model.Nastavnik"/>
+    <mapping class="model.Nastavnik"/>
+  </session-factory>
 </hibernate-configuration>

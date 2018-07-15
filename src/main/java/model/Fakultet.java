@@ -26,6 +26,7 @@ import javax.persistence.OrderBy;
 import javax.persistence.Table;
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.Filter;
 
 /**
  *
@@ -42,6 +43,7 @@ import org.hibernate.annotations.CascadeType;
     ,
     @NamedQuery(name = "Fakultet.FindByNaziv", query = "from Fakultet f where f.naziv = :naziv")
 })
+
 public class Fakultet implements Serializable {
 
     @Id
@@ -78,6 +80,7 @@ public class Fakultet implements Serializable {
     @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "fakultet_id")
     @OrderBy(value = "datum_do DESC")
+    @Filter(name = "filterAktivniRukovodioci", condition = ":tekuciDatum BETWEEN datum_od AND datum_do")
     private List<Rukovodilac> rukovodioci = new ArrayList<>();
 
     @ManyToMany(fetch = FetchType.LAZY)

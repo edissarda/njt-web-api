@@ -7,6 +7,7 @@ package service.impl;
 
 import dto.FakultetDTO;
 import hibernate.HibernateUtil;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 import model.Fakultet;
@@ -48,8 +49,12 @@ public class FakultetServiceImpl implements IFakultetService {
     }
 
     @Override
-    public List<Rukovodilac> ucitajRukovodioceZaFakultet(Integer fakultetID) throws Exception {
+    public List<Rukovodilac> ucitajRukovodioceZaFakultet(Integer fakultetID, boolean samoAktivni) throws Exception {
         try {
+            if (samoAktivni) {
+                session.enableFilter("filterAktivniRukovodioci").setParameter("tekuciDatum", new Date());
+            }
+            
             Fakultet fakultet = null;
             try {
                 fakultet = session.get(Fakultet.class, fakultetID);
@@ -59,8 +64,9 @@ public class FakultetServiceImpl implements IFakultetService {
             if (fakultet == null) {
                 throw new Exception("Факултет са идентификационим бројем " + fakultetID + " не постоји");
             }
-
+            
             List<Rukovodilac> rukovodioci = fakultet.getRukovodioci();
+            
             return rukovodioci;
         } catch (Exception e) {
             throw e;

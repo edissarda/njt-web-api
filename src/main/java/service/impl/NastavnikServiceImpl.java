@@ -37,4 +37,17 @@ public class NastavnikServiceImpl implements INastavnikService {
         }
     }
 
+    @Override
+    public Nastavnik getById(Integer id) throws Exception {
+        try {
+            Nastavnik nastavnik = session.get(Nastavnik.class, id);
+            if (nastavnik == null) {
+                throw new Exception("Наставник са идентификационим бројем " + id + " не постоји.");
+            }
+            return nastavnik;
+        } catch (Exception e) {
+            throw e;
+        }
+    }
+
 }

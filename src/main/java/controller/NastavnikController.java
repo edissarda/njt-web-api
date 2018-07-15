@@ -12,6 +12,7 @@ import model.Nastavnik;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.annotation.SessionScope;
@@ -32,6 +33,17 @@ public class NastavnikController {
     @Autowired
     private INastavnikService service;
 
+    @GetMapping(path = "/{id}")
+    public IResponse getById(@PathVariable(name = "id") Integer id) {
+        try {
+            Nastavnik nastavnik = service.getById(id);
+            NastavnikDTO nastavnikDTO = new NastavnikDTO(nastavnik);
+            return ResponseBuilder.getOkResponse(nastavnikDTO);
+        } catch (Exception e) {
+            return ResponseBuilder.getErrorResponse(e.getMessage());
+        }
+    }
+    
     @GetMapping
     public IResponse loadAll() {
         try {

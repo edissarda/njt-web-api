@@ -14,6 +14,7 @@ import model.Nastavnik;
  */
 public interface INastavnikService {
 
+    public Nastavnik getById(Integer id) throws Exception;
     public List<Nastavnik> loadAll() throws Exception;
 
 }

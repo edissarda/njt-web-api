@@ -6,6 +6,7 @@
 package controller;
 
 import dto.NastavnikDTO;
+import dto.TitulaDTO;
 import dto.ZvanjeDTO;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -73,6 +74,17 @@ public class NastavnikController {
     public IResponse postaviZvanjeNastavniku(@PathVariable(name = "id") Integer nastavnikId, @RequestBody ZvanjeDTO zvanjeDTO) {
         try {
             Nastavnik nastavnik = service.dodajZvanjeNastavniku(nastavnikId, zvanjeDTO);
+            NastavnikDTO nastavnikDTO = new NastavnikDTO(nastavnik);
+            return ResponseBuilder.getOkResponse(nastavnikDTO);
+        } catch (Exception e) {
+            return ResponseBuilder.getErrorResponse(e.getMessage());
+        }
+    }
+    
+    @PostMapping(path = "/{id}/titula")
+    public IResponse postaviTituluNastavniku(@PathVariable(name = "id") Integer nastavnikId, @RequestBody TitulaDTO titulaDTO) {
+        try {
+            Nastavnik nastavnik = service.dodajTituluNastavniku(nastavnikId, titulaDTO);
             NastavnikDTO nastavnikDTO = new NastavnikDTO(nastavnik);
             return ResponseBuilder.getOkResponse(nastavnikDTO);
         } catch (Exception e) {

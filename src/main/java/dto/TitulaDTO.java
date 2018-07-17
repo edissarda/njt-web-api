@@ -17,7 +17,7 @@ public class TitulaDTO implements Serializable {
 
     private Integer id;
 
-    @NotBlank
+    @NotBlank(message = "Назив титуле не сме бити непознат")
     private String naziv;
 
     public TitulaDTO(Titula titula) {

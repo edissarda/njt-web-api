@@ -6,14 +6,18 @@
 package service.impl;
 
 import dto.NastavnikDTO;
+import dto.TitulaDTO;
 import dto.ZvanjeDTO;
 import hibernate.HibernateUtil;
 import java.time.LocalDate;
 import java.util.List;
 import model.Nastavnik;
+import model.Titula;
+import model.TitulaNastavnika;
 import model.Zvanje;
 import model.ZvanjeNastavnika;
 import org.hibernate.Session;
+import org.hibernate.type.IntegerType;
 import org.hibernate.type.StringType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.RequestScope;
@@ -116,9 +120,18 @@ public class NastavnikServiceImpl implements INastavnikService {
             if (!nastavnik.getZvanjaNastavnika().isEmpty()) {
                 LocalDate datumPoslednjegZvanja = nastavnik.getZvanjaNastavnika().iterator().next().getDatumOd();
 
-                if (now.isBefore(datumPoslednjegZvanja)) {
+                if (now.isBefore(datumPoslednjegZvanja) || now.isEqual(datumPoslednjegZvanja)) {
                     throw new Exception("Датум новог звања мора бити после датума последњег звања");
                 }
+            }
+
+            List<ZvanjeNastavnika> istaZvanjaNastavnika = session.createQuery("from ZvanjeNastavnika zn WHERE zn.nastavnikID = :nastavnikId AND zn.zvanjeID = :zvanjeId", ZvanjeNastavnika.class)
+                    .setParameter("nastavnikId", nastavnik.getId(), IntegerType.INSTANCE)
+                    .setParameter("zvanjeId", zvanje.getId(), IntegerType.INSTANCE)
+                    .getResultList();
+
+            if (!istaZvanjaNastavnika.isEmpty()) {
+                throw new Exception("Наставник већ има изабрано звање");
             }
 
             nastavnik.getTituleNastavnika().isEmpty();
@@ -135,7 +148,71 @@ public class NastavnikServiceImpl implements INastavnikService {
             return nastavnik;
         } catch (RuntimeException rtex) {
             session.getTransaction().rollback();
-            throw new Exception("Наставник већ има изабрано звање");
+            throw new Exception("Дошло је до грешке приликом чувања звања наставника");
+        } catch (Exception e) {
+            session.getTransaction().rollback();
+            throw e;
+        }
+    }
+
+    @Override
+    public Nastavnik dodajTituluNastavniku(Integer nastavnikId, TitulaDTO titulaDTO) throws Exception {
+        try {
+            Validator.validate(titulaDTO);
+
+            if (nastavnikId <= 0) {
+                throw new Exception("Идентификациони број наставника није валидан");
+            }
+
+            if (titulaDTO.getId() == null || titulaDTO.getId() <= 0) {
+                throw new Exception("Изаберите титулу");
+            }
+
+            Nastavnik nastavnik = session.get(Nastavnik.class, nastavnikId);
+
+            if (nastavnik == null) {
+                throw new Exception("Наставник са идентификационим бројем " + nastavnikId + " не постоји");
+            }
+
+            Titula titula = session.get(Titula.class, titulaDTO.getId());
+            if (titula == null) {
+                throw new Exception("Титула са идентификационим бројем " + titulaDTO.getId() + " не постоји");
+            }
+
+            LocalDate now = LocalDate.now();
+
+            if (!nastavnik.getTituleNastavnika().isEmpty()) {
+                LocalDate datumPoslednjeTitule = nastavnik.getTituleNastavnika().iterator().next().getDatumOd();
+
+                if (now.isBefore(datumPoslednjeTitule) || now.isEqual(datumPoslednjeTitule)) {
+                    throw new Exception("Датум нове титуле мора бити после датума последње");
+                }
+            }
+
+            List<TitulaNastavnika> isteTituleNastavnika = session.createQuery("from TitulaNastavnika tn WHERE tn.nastavnikID = :nastavnikId AND tn.titulaID = :titulaId", TitulaNastavnika.class)
+                    .setParameter("nastavnikId", nastavnik.getId(), IntegerType.INSTANCE)
+                    .setParameter("titulaId", titula.getId(), IntegerType.INSTANCE)
+                    .getResultList();
+
+            if (!isteTituleNastavnika.isEmpty()) {
+                throw new Exception("Наставник већ има изабрану титулу");
+            }
+
+            nastavnik.getZvanjaNastavnika().isEmpty();
+
+            TitulaNastavnika titulaNastavnika = new TitulaNastavnika();
+            titulaNastavnika.setDatumOd(now);
+            titulaNastavnika.setNastavnikID(nastavnik.getId());
+            titulaNastavnika.setTitulaID(titula.getId());
+
+            session.getTransaction().begin();
+            session.save(titulaNastavnika);
+            session.getTransaction().commit();
+
+            return nastavnik;
+        } catch (RuntimeException rtex) {
+            session.getTransaction().rollback();
+            throw new Exception("Дошло је до грешке приликом чувања титуле наставника");
         } catch (Exception e) {
             session.getTransaction().rollback();
             throw e;

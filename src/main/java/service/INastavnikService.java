@@ -6,6 +6,7 @@
 package service;
 
 import dto.NastavnikDTO;
+import dto.TitulaDTO;
 import dto.ZvanjeDTO;
 import java.util.List;
 import model.Nastavnik;
@@ -23,5 +24,7 @@ public interface INastavnikService {
     public Nastavnik save(NastavnikDTO nastavnikDTO) throws Exception;
 
     public Nastavnik dodajZvanjeNastavniku(Integer nastavnikId, ZvanjeDTO zvanjeDTO) throws Exception;
+
+    public Nastavnik dodajTituluNastavniku(Integer nastavnikId, TitulaDTO titulaDTO) throws Exception;
 
 }

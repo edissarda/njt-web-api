@@ -35,7 +35,7 @@ public class TitulaNastavnika implements Serializable {
     private LocalDate datumOd;
 
     @ManyToOne
-    @JoinColumn(name = "titula_id")
+    @JoinColumn(name = "titula_id", insertable = false)
     private Titula titula;
 
     public TitulaNastavnika() {

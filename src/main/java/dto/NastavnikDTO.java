@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import javax.validation.constraints.NotBlank;
 import model.Nastavnik;
 
 /**
@@ -18,26 +19,35 @@ import model.Nastavnik;
 public class NastavnikDTO implements Serializable {
 
     private Integer id;
+    
+    @NotBlank(message = "Име наставника не сме бити непознато")
     private String ime;
+    
+    @NotBlank(message = "Презиме наставника не сме бити непознато")
     private String prezime;
+    
+    @NotBlank(message = "Број раднке књижице не сме бити непознат")
+    private String brojRadneKnjizice;
+    
     private List<ZvanjeNastavnikaDTO> zvanja = new ArrayList<>();
     private List<TitulaNastavnikaDTO> titule = new ArrayList<>();
 
     public NastavnikDTO() {
     }
 
-    public NastavnikDTO(Nastavnik n) {
-        if (n != null) {
-            id = n.getId();
-            ime = n.getIme();
-            prezime = n.getPrezime();
+    public NastavnikDTO(Nastavnik nastavnik) {
+        if (nastavnik != null) {
+            id = nastavnik.getId();
+            ime = nastavnik.getIme();
+            prezime = nastavnik.getPrezime();
+            brojRadneKnjizice = nastavnik.getBrojRadneKnjizice();
 
-            if (!n.getZvanjaNastavnika().isEmpty()) {
-                zvanja = n.getZvanjaNastavnika().stream().map(z -> new ZvanjeNastavnikaDTO(z)).collect(Collectors.toList());
+            if (!nastavnik.getZvanjaNastavnika().isEmpty()) {
+                zvanja = nastavnik.getZvanjaNastavnika().stream().map(z -> new ZvanjeNastavnikaDTO(z)).collect(Collectors.toList());
             }
 
-            if (!n.getTituleNastavnika().isEmpty()) {
-                titule = n.getTituleNastavnika().stream().map(t -> new TitulaNastavnikaDTO(t)).collect(Collectors.toList());
+            if (!nastavnik.getTituleNastavnika().isEmpty()) {
+                titule = nastavnik.getTituleNastavnika().stream().map(t -> new TitulaNastavnikaDTO(t)).collect(Collectors.toList());
             }
         }
     }
@@ -80,6 +90,14 @@ public class NastavnikDTO implements Serializable {
 
     public void setTitule(List<TitulaNastavnikaDTO> titule) {
         this.titule = titule;
+    }
+
+    public String getBrojRadneKnjizice() {
+        return brojRadneKnjizice;
+    }
+
+    public void setBrojRadneKnjizice(String brojRadneKnjizice) {
+        this.brojRadneKnjizice = brojRadneKnjizice;
     }
 
 }

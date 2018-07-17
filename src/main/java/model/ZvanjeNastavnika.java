@@ -35,7 +35,7 @@ public class ZvanjeNastavnika implements Serializable {
     private LocalDate datumOd;
 
     @ManyToOne
-    @JoinColumn(name = "zvanje_id")
+    @JoinColumn(name = "zvanje_id", insertable = false)
     private Zvanje zvanje;
 
     public ZvanjeNastavnika() {
@@ -75,7 +75,7 @@ public class ZvanjeNastavnika implements Serializable {
 
     @Override
     public int hashCode() {
-        int hash = 5;
+        int hash = 3;
         return hash;
     }
 
@@ -99,7 +99,5 @@ public class ZvanjeNastavnika implements Serializable {
         }
         return true;
     }
-    
-    
 
 }

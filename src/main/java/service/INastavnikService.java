@@ -5,6 +5,8 @@
  */
 package service;
 
+import dto.NastavnikDTO;
+import dto.ZvanjeDTO;
 import java.util.List;
 import model.Nastavnik;
 
@@ -15,6 +17,11 @@ import model.Nastavnik;
 public interface INastavnikService {
 
     public Nastavnik getById(Integer id) throws Exception;
+
     public List<Nastavnik> loadAll() throws Exception;
+
+    public Nastavnik save(NastavnikDTO nastavnikDTO) throws Exception;
+
+    public Nastavnik dodajZvanjeNastavniku(Integer nastavnikId, ZvanjeDTO zvanjeDTO) throws Exception;
 
 }

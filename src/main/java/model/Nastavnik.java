@@ -6,9 +6,11 @@
 package model;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Set;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -27,6 +29,7 @@ import org.hibernate.annotations.OrderBy;
 @Table(name = "nastavnik")
 @NamedQueries({
     @NamedQuery(name = "Nastavnik.LoadAll", query = "from Nastavnik")
+    ,@NamedQuery(name = "Nastavnik.LoadByBrojRadneKnjizice", query = "from Nastavnik n WHERE n.brojRadneKnjizice = :brojRadneKnjizice")
 })
 public class Nastavnik implements Serializable {
 
@@ -34,20 +37,27 @@ public class Nastavnik implements Serializable {
     @Column(name = "nastavnik_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
     private String ime;
+
     private String prezime;
 
-    @OneToMany
+    @Column(name = "broj_radne_knjizice")
+    private String brojRadneKnjizice;
+
+    @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "nastavnik_id")
     @OrderBy(clause = "datum_od DESC")
     private Set<ZvanjeNastavnika> zvanjaNastavnika;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "nastavnik_id")
     @OrderBy(clause = "datum_od DESC")
     private Set<TitulaNastavnika> tituleNastavnika;
 
     public Nastavnik() {
+        zvanjaNastavnika = new HashSet<>();
+        tituleNastavnika = new HashSet<>();
     }
 
     public Integer getId() {
@@ -88,6 +98,14 @@ public class Nastavnik implements Serializable {
 
     public void setTituleNastavnika(Set<TitulaNastavnika> tituleNastavnika) {
         this.tituleNastavnika = tituleNastavnika;
+    }
+
+    public String getBrojRadneKnjizice() {
+        return brojRadneKnjizice;
+    }
+
+    public void setBrojRadneKnjizice(String brojRadneKnjizice) {
+        this.brojRadneKnjizice = brojRadneKnjizice;
     }
 
 }

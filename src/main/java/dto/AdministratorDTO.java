@@ -7,6 +7,9 @@ package dto;
 
 import java.io.Serializable;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import model.Administrator;
@@ -21,13 +24,15 @@ public class AdministratorDTO implements Serializable {
     private String prezime;
     private String datumRegistracije;
 
-    @NotBlank(message = "Корисничко име не сме бити непознато")
+    @NotBlank(message = "Корисничко име не сме бити празно")
     @Size(max = 20, message = "Корисничко име не сме имати више од 20 карактера")
     private String username;
 
-    @NotBlank(message = "Шифра не сме бити непозната")
+    @NotBlank(message = "Шифра не сме бити празна")
     @Size(max = 50, message = "Шифра не сме имати више од 20 карактера")
     private String password;
+
+    private List<PrijavaAdministratoraDTO> prijave = new ArrayList<>();
 
     public AdministratorDTO() {
     }
@@ -39,6 +44,9 @@ public class AdministratorDTO implements Serializable {
             datumRegistracije = admin.getDatumRegistracije().format(DateTimeFormatter.ofPattern("dd.MM.yyyy."));
             username = admin.getKorisnickoIme();
             password = "/";
+            if (admin.getPrijave() != null && !admin.getPrijave().isEmpty()) {
+                prijave = admin.getPrijave().stream().map(p -> new PrijavaAdministratoraDTO(p)).collect(Collectors.toList());
+            }
         }
     }
 
@@ -80,6 +88,14 @@ public class AdministratorDTO implements Serializable {
 
     public void setDatumRegistracije(String datumRegistracije) {
         this.datumRegistracije = datumRegistracije;
+    }
+
+    public List<PrijavaAdministratoraDTO> getPrijave() {
+        return prijave;
+    }
+
+    public void setPrijave(List<PrijavaAdministratoraDTO> prijave) {
+        this.prijave = prijave;
     }
 
 }

@@ -62,10 +62,11 @@ public class ZvanjeServiceImpl implements IZvanjeService {
 
         try {
             session.getTransaction().begin();
-            Integer id = (Integer) session.save(zvanjeZaInsert);
+            session.save(zvanjeZaInsert);
             session.getTransaction().commit();
-            return session.get(Zvanje.class, id);
+            return zvanjeZaInsert;
         } catch (Exception e) {
+            e.printStackTrace();
             session.getTransaction().rollback();
             throw new Exception("Грешка. Звање није сачувано.");
         }

@@ -7,13 +7,18 @@ package model;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.List;
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -44,6 +49,10 @@ public class Administrator implements Serializable {
 
     @Column(name = "datum_registracije")
     private LocalDate datumRegistracije;
+
+    @OneToMany(fetch = FetchType.EAGER)
+    @JoinColumn(name = "administrator_id")
+    private List<PrijavaAdministratora> prijave;
 
     public Administrator() {
     }
@@ -94,6 +103,42 @@ public class Administrator implements Serializable {
 
     public void setDatumRegistracije(LocalDate datumRegistracije) {
         this.datumRegistracije = datumRegistracije;
+    }
+
+    public List<PrijavaAdministratora> getPrijave() {
+        return prijave;
+    }
+
+    public void setPrijave(List<PrijavaAdministratora> prijave) {
+        this.prijave = prijave;
+    }
+
+    public void dodajPrijavu(PrijavaAdministratora prijava) {
+        prijave.add(prijava);
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Administrator other = (Administrator) obj;
+        if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
+        return true;
     }
 
 }

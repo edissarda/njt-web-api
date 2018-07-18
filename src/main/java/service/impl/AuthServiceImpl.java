@@ -7,8 +7,10 @@ package service.impl;
 
 import dto.AdministratorDTO;
 import hibernate.HibernateUtil;
+import java.time.LocalDateTime;
 import java.util.List;
 import model.Administrator;
+import model.PrijavaAdministratora;
 import org.hibernate.Session;
 import org.hibernate.type.StringType;
 import org.springframework.stereotype.Service;
@@ -53,13 +55,23 @@ public class AuthServiceImpl implements IAuthService {
             String stvarnaSifra = admin.getSifra();
 
             if (unetaSifra.equals(stvarnaSifra)) {
-                admin.setSifra("SUCCESS");
+                PrijavaAdministratora prijava = new PrijavaAdministratora();
+                prijava.setAdminID(admin.getId());
+                prijava.setDatumIVremePrijave(LocalDateTime.now());
+                
+                session.getTransaction().begin();
+                session.save(prijava);
+                session.getTransaction().commit();
+
+                admin.dodajPrijavu(prijava);
+                
                 return admin;
             } else {
                 throw new Exception("Погрешно корисничко име или шифра");
             }
 
         } catch (Exception e) {
+            session.getTransaction().rollback();
             throw e;
         }
     }

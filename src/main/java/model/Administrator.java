@@ -20,6 +20,7 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import org.hibernate.annotations.OrderBy;
 
 /**
  *
@@ -52,6 +53,7 @@ public class Administrator implements Serializable {
 
     @OneToMany(fetch = FetchType.EAGER)
     @JoinColumn(name = "administrator_id")
+    @OrderBy(clause = "datum DESC")
     private List<PrijavaAdministratora> prijave;
 
     public Administrator() {

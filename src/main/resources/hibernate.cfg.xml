@@ -32,5 +32,6 @@
         <mapping class="model.Nastavnik"/>
         <mapping class="model.Administrator"/>
         <mapping class="model.PrijavaAdministratora"/>
+        <mapping class="model.KontaktPoruka"/>
     </session-factory>
 </hibernate-configuration>

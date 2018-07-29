@@ -116,7 +116,7 @@ public class Administrator implements Serializable {
     }
 
     public void dodajPrijavu(PrijavaAdministratora prijava) {
-        prijave.add(prijava);
+        prijave.add(0, prijava);
     }
 
     @Override

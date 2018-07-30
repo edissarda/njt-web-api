@@ -36,6 +36,8 @@ public class TipRukovodiocaServiceImpl implements ITipRukovodiocaService {
             return tipoviRukovodoica;
         } catch (Exception e) {
             throw new Exception("Грешка приликом учитавања типова руководиоца.");
+        } finally {
+            session.close();
         }
     }
 

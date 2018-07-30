@@ -50,6 +50,8 @@ public class KontaktServiceImpl implements IKontaktService {
         } catch (Exception e) {
             session.getTransaction().rollback();
             throw e;
+        } finally {
+            session.close();
         }
     }
 
@@ -60,6 +62,8 @@ public class KontaktServiceImpl implements IKontaktService {
             return poruke;
         } catch (Exception e) {
             throw new Exception("Дошло је до грешке приликом учитавања контакт порука");
+        } finally {
+            session.close();
         }
     }
 

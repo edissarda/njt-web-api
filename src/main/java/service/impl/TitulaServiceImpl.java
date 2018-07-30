@@ -30,6 +30,8 @@ public class TitulaServiceImpl implements ITitulaService {
             return titule;
         } catch (Exception e) {
             throw new Exception("Грешка приликом учитавања титула");
+        } finally {
+            session.close();
         }
     }
 

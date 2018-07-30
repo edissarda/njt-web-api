@@ -45,6 +45,8 @@ public class NastavnikServiceImpl implements INastavnikService {
             return nastavnici;
         } catch (Exception e) {
             throw new Exception("Грешка приликом учитавања наставника");
+        } finally {
+            session.close();
         }
     }
 
@@ -58,6 +60,8 @@ public class NastavnikServiceImpl implements INastavnikService {
             return nastavnik;
         } catch (Exception e) {
             throw e;
+        } finally {
+            session.close();
         }
     }
 
@@ -88,6 +92,8 @@ public class NastavnikServiceImpl implements INastavnikService {
         } catch (Exception e) {
             session.getTransaction().rollback();
             throw e;
+        } finally {
+            session.close();
         }
     }
 
@@ -152,6 +158,8 @@ public class NastavnikServiceImpl implements INastavnikService {
         } catch (Exception e) {
             session.getTransaction().rollback();
             throw e;
+        } finally {
+            session.close();
         }
     }
 
@@ -216,6 +224,8 @@ public class NastavnikServiceImpl implements INastavnikService {
         } catch (Exception e) {
             session.getTransaction().rollback();
             throw e;
+        } finally {
+            session.close();
         }
     }
 

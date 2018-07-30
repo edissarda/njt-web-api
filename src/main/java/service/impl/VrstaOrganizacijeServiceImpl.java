@@ -36,6 +36,8 @@ public class VrstaOrganizacijeServiceImpl implements IVrstaOrganizacijeService {
             return vrsteOrganizacija;
         } catch (Exception e) {
             throw new Exception("Грешка приликом учитавања врста организације.");
+        } finally {
+            session.close();
         }
     }
 

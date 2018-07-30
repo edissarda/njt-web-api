@@ -29,6 +29,8 @@ public class NaucnaOblastServiceImpl implements INaucnaOblastService {
             return session.createNamedQuery("NaucnaOblast.LoadAll", NaucnaOblast.class).getResultList();
         } catch (Exception e) {
             throw new Exception("Грешка при учитавању научних области.");
+        } finally {
+            session.close();
         }
     }
 

@@ -73,6 +73,8 @@ public class AuthServiceImpl implements IAuthService {
         } catch (Exception e) {
             session.getTransaction().rollback();
             throw e;
+        } finally {
+            session.close();
         }
     }
 

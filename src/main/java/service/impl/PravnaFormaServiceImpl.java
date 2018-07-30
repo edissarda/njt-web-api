@@ -36,6 +36,8 @@ public class PravnaFormaServiceImpl implements IPravnaFormaService {
             return pravneForme;
         } catch (Exception e) {
             throw new Exception("Грешка приликом учитавања правних форми.");
+        } finally {
+            session.close();
         }
     }
 

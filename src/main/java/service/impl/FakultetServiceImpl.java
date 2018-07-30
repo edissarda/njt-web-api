@@ -45,6 +45,8 @@ public class FakultetServiceImpl implements IFakultetService {
             return fakulteti;
         } catch (Exception e) {
             throw new Exception("Грешка приликом учитавања факултета.");
+        } finally {
+            session.close();
         }
     }
 
@@ -54,7 +56,7 @@ public class FakultetServiceImpl implements IFakultetService {
             if (samoAktivni) {
                 session.enableFilter("filterAktivniRukovodioci").setParameter("tekuciDatum", new Date());
             }
-            
+
             Fakultet fakultet = null;
             try {
                 fakultet = session.get(Fakultet.class, fakultetID);
@@ -64,12 +66,15 @@ public class FakultetServiceImpl implements IFakultetService {
             if (fakultet == null) {
                 throw new Exception("Факултет са идентификационим бројем " + fakultetID + " не постоји");
             }
-            
+
+            fakultet.getRukovodioci().size();
             List<Rukovodilac> rukovodioci = fakultet.getRukovodioci();
-            
+
             return rukovodioci;
         } catch (Exception e) {
             throw e;
+        } finally {
+            session.close();
         }
     }
 
@@ -83,6 +88,8 @@ public class FakultetServiceImpl implements IFakultetService {
             return f;
         } catch (Exception e) {
             throw e;
+        } finally {
+            session.close();
         }
     }
 
@@ -90,6 +97,18 @@ public class FakultetServiceImpl implements IFakultetService {
     public Fakultet create(FakultetDTO fakultetDTO) throws Exception {
         try {
             Validator.validate(fakultetDTO);
+
+            if (fakultetDTO.getVrstaOrganizacije().getId() == null) {
+                throw new Exception("Изаберите врсту организације");
+            }
+
+            if (fakultetDTO.getPravnaForma().getId() == null) {
+                throw new Exception("Изаберите правну форму");
+            }
+
+            if (fakultetDTO.getNaucnaOblast().getId() == null) {
+                throw new Exception("Изаберите научну област");
+            }
 
             List<Fakultet> fakultetiSaMaticnimBrojem = session.createNamedQuery("Fakultet.FindByMaticniBroj", Fakultet.class)
                     .setParameter("maticniBroj", fakultetDTO.getMaticniBroj(), StringType.INSTANCE)
@@ -156,10 +175,13 @@ public class FakultetServiceImpl implements IFakultetService {
 
             return loadById(id);
         } catch (RuntimeException rte) {
-            throw new Exception("Грешка приликом чувања факултета");
+            session.getTransaction().rollback();
+            throw new Exception("Грешка. " + rte.getMessage());
         } catch (Exception e) {
             session.getTransaction().rollback();
             throw e;
+        } finally {
+            session.close();
         }
     }
 

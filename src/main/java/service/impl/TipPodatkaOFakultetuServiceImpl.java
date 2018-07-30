@@ -35,6 +35,8 @@ public class TipPodatkaOFakultetuServiceImpl implements ITipPodatkaOFakultetuSer
             return tipoviPodataka;
         } catch (Exception e) {
             throw new Exception("Грешка приликом учитавања типова података.");
+        } finally {
+            session.close();
         }
     }
 

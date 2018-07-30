@@ -127,6 +127,8 @@ public class RukovodilacServiceImpl implements IRukovodilacService {
         } catch (Exception e) {
             session.getTransaction().rollback();
             throw e;
+        } finally {
+            session.close();
         }
     }
 

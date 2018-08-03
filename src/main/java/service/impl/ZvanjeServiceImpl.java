@@ -91,6 +91,7 @@ public class ZvanjeServiceImpl implements IZvanjeService {
 
     @Override
     public Zvanje delete(Integer id) throws Exception {
+        Session session = HibernateUtil.getInstance().getNewSession();
         try {
             Zvanje zvanje = findById(id);
 
@@ -124,7 +125,10 @@ public class ZvanjeServiceImpl implements IZvanjeService {
             }
 
             session.getTransaction().begin();
-            Zvanje fromDb = findById(zvanjeDTO.getId());
+            Zvanje fromDb = session.get(Zvanje.class, zvanjeDTO.getId());
+            if (fromDb == null) {
+                throw new Exception("Звање са идентификационим бројем " + zvanjeDTO.getId() + " не постоји");
+            }
             fromDb.setNaziv(zvanjeDTO.getNaziv());
             session.getTransaction().commit();
 

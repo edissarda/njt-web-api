@@ -48,6 +48,7 @@ public class Rukovodilac implements Serializable {
     private LocalDate datumOd;
 
     @Column(name = "datum_do")
+    @Id
     private LocalDate datumDo;
 
     @ManyToOne

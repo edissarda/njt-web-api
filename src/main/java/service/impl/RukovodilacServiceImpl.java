@@ -124,6 +124,9 @@ public class RukovodilacServiceImpl implements IRukovodilacService {
             session.getTransaction().commit();
 
             return rukovodilac;
+        } catch (RuntimeException ete) {
+            session.getTransaction().rollback();
+            throw new Exception("Дошло је до грешке приликом чувања руководиоца");
         } catch (Exception e) {
             session.getTransaction().rollback();
             throw e;

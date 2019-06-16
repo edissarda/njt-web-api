@@ -24,7 +24,7 @@ import service.IVrstaOrganizacijeService;
 @RestController
 @RequestMapping(path = "vrsta-organizacije")
 @SessionScope
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "*")
 public class VrstaOgranizacijeController {
 
     @Autowired

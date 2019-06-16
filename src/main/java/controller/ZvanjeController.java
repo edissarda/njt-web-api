@@ -29,7 +29,7 @@ import service.IZvanjeService;
  */
 @RestController
 @RequestMapping(path = "zvanje")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "*")
 @SessionScope
 public class ZvanjeController {
 

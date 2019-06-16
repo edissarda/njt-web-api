@@ -25,7 +25,7 @@ import service.IAuthService;
 @RestController
 @RequestMapping(path = "auth")
 @RequestScope
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "*")
 public class AuthController {
 
     @Autowired

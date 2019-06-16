@@ -26,7 +26,7 @@ import service.ITipPodatkaOFakultetuService;
 @RestController
 @RequestMapping("tip-podatka")
 @SessionScope
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "*")
 public class TipPodatkaOFakultetuController {
 
     @Autowired

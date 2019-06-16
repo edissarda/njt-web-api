@@ -24,7 +24,7 @@ import service.ITipRukovodiocaService;
  */
 @RestController
 @RequestMapping(path = "tip-rukovodioca")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "*")
 @SessionScope
 public class TipRukovodiocaController {
 

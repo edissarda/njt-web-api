@@ -28,7 +28,7 @@ import service.IKontaktService;
 @RestController
 @RequestMapping("kontakt")
 @SessionScope
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "*")
 public class KontaktController {
 
     @Autowired

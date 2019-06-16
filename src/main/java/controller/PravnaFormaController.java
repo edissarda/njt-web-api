@@ -24,7 +24,7 @@ import service.IPravnaFormaService;
 @RestController
 @RequestMapping(path = "pravna-forma")
 @SessionScope
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "*")
 public class PravnaFormaController {
 
     @Autowired

@@ -26,7 +26,7 @@ import service.ITitulaService;
 @RestController
 @RequestMapping("titula")
 @SessionScope
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "*")
 public class TitulaController {
 
     @Autowired

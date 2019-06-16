@@ -31,7 +31,7 @@ import service.INastavnikService;
 @RestController
 @RequestMapping("nastavnik")
 @SessionScope
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "*")
 public class NastavnikController {
 
     @Autowired

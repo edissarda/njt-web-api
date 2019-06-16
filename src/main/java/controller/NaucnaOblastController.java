@@ -26,7 +26,7 @@ import service.INaucnaOblastService;
  */
 @RestController
 @RequestMapping(path = "naucna-oblast")
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "*")
 @SessionScope
 public class NaucnaOblastController {
 

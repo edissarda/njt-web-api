@@ -25,7 +25,7 @@ import service.IRukovodilacService;
 @RestController
 @RequestMapping("rukovodilac")
 @SessionScope
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "*")
 public class RukovodilacController {
     
     @Autowired

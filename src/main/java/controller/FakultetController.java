@@ -32,7 +32,7 @@ import service.IFakultetService;
 @RestController
 @RequestMapping(path = "fakultet")
 @SessionScope
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "*")
 public class FakultetController {
 
     @Autowired

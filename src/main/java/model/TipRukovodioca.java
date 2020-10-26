@@ -23,7 +23,8 @@ import javax.validation.constraints.NotEmpty;
 @Entity
 @Table(name = "tip_rukovodioca")
 @NamedQueries({
-    @NamedQuery(name = "TipRukovodioca.LoadAll", query = "from TipRukovodioca")
+    @NamedQuery(name = "TipRukovodioca.LoadAll", query = "from TipRukovodioca"),
+    @NamedQuery(name = "TipRukovodioca.FindByName", query = "from TipRukovodioca tr where tr.naziv = :naziv")
 })
 public class TipRukovodioca implements Serializable {
 

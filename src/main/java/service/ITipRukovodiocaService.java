@@ -6,6 +6,8 @@
 package service;
 
 import java.util.List;
+
+import dto.TipRukovodiocaDTO;
 import model.TipRukovodioca;
 
 /**
@@ -15,4 +17,8 @@ import model.TipRukovodioca;
 public interface ITipRukovodiocaService {
 
     public List<TipRukovodioca> loadAll() throws Exception;
+
+    TipRukovodioca create(TipRukovodiocaDTO tipRukovodioca) throws Exception;
+
+    TipRukovodioca delete(int id) throws Exception;
 }

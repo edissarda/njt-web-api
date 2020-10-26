@@ -7,12 +7,11 @@
 package controller;
 
 import java.util.List;
+
+import dto.TipRukovodiocaDTO;
 import model.TipRukovodioca;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.annotation.SessionScope;
 import response.IResponse;
 import response.ResponseBuilder;
@@ -30,6 +29,26 @@ public class TipRukovodiocaController {
 
     @Autowired(required = true)
     private ITipRukovodiocaService tipRukovodoicaService;
+
+    @PostMapping
+    public IResponse create(@RequestBody TipRukovodiocaDTO tipRukovodioca) {
+        try {
+            TipRukovodioca kreireniTipRukovodioca = this.tipRukovodoicaService.create(tipRukovodioca);
+            return ResponseBuilder.getOkResponse(new TipRukovodiocaDTO(kreireniTipRukovodioca));
+        } catch (Exception e) {
+            return ResponseBuilder.getErrorResponse(e.getMessage());
+        }
+    }
+
+    @DeleteMapping(path = "/{id}")
+    public IResponse delete(@PathVariable() int id) {
+        try {
+            TipRukovodioca kreireniTipRukovodioca = this.tipRukovodoicaService.delete(id);
+            return ResponseBuilder.getOkResponse(new TipRukovodiocaDTO(kreireniTipRukovodioca));
+        } catch (Exception e) {
+            return ResponseBuilder.getErrorResponse(e.getMessage());
+        }
+    }
 
     @GetMapping
     public IResponse loadAll() {

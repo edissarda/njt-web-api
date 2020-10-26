@@ -8,6 +8,8 @@ package dto;
 import java.io.Serializable;
 import model.TipRukovodioca;
 
+import javax.validation.constraints.NotBlank;
+
 /**
  *
  * @author edis
@@ -16,6 +18,8 @@ public class TipRukovodiocaDTO implements Serializable {
 
     
     private Integer id;
+
+    @NotBlank(message = "Назив типа руководиоца не сме бити непознат.")
     private String naziv;
 
     public TipRukovodiocaDTO(TipRukovodioca tipRukovodioca) {
